@@ -8,11 +8,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { Actions } from "react-native-router-flux";
-import PlantImage from "../PlantImage";
+import Input from "../components/Input";
 
 const Home = () => {
   const goToAbout = () => {
     Actions.about();
+  };
+  const goToPlant = (plantName) => {
+    Actions.plant({ plantName });
   };
   return (
     <View style={styles.container}>
@@ -20,20 +23,14 @@ const Home = () => {
         <Text style={styles.header}>How often should I water my plants?</Text>
       </View>
       <View>
-        <PlantImage />
-        <Button
-          onPress={() => Alert.alert("Simple Button pressed")}
-          title="Learn More"
-          color="#3BBF8F"
-          accessibilityLabel="Learn more about this purple button"
-        />
+        <Input onPress={goToPlant} />
       </View>
       <View
         style={{
           padding: 20,
         }}
       >
-        <TouchableOpacity style={{ margin: 12 }} onPress={goToAbout}>
+        <TouchableOpacity style={{ margin: 21 }} onPress={goToAbout}>
           <Text
             style={{
               textAlign: "center",
@@ -51,13 +48,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "center",
-    padding: 10,
+    margin: 15,
   },
   header: {
-    fontSize: 20,
+    fontSize: 22,
     color: "#3BBF8F",
     textAlign: "center",
-    margin: 5,
+    margin: 15,
   },
   text: {
     color: "#4f603c",
