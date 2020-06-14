@@ -67,10 +67,10 @@ const Plant = ({ plantName }) => {
         </View>
       ) : (
         <View style={styles.notFound}>
-          <Text style={styles.text}>
+          <Text style={styles.header}>
             Plant not found. We dont have {plantName} yet in our base
           </Text>
-          <Text>Maybe you were looking for</Text>
+          <Text style={styles.text}>Maybe you were looking for</Text>
           <View style={styles.otherPlants}>
             {similarPlants.map((plant, index) => (
               <TouchableOpacity
