@@ -7,62 +7,71 @@ import {
   Alert,
   StyleSheet,
 } from "react-native";
-import { Actions } from "react-native-router-flux";
+import { Actions, POP_AND_PUSH } from "react-native-router-flux";
+import BouncingPreloader from "react-native-bouncing-preloader";
 import PlantImage from "../components/PlantImage";
-import AllPlants from "../AllPlants";
+import WateringTime from "../components/WateringTime";
+// import AllPlants from "../AllPlants";
 
 const Plant = ({ plantName }) => {
   const [similarPlants, setSimilarPlants] = useState([]);
   const [plant, setPlant] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(
     function findPlant() {
-      const requestedPlant = AllPlants.find(
-        (plant) => plant.name.toLowerCase() === plantName.toLowerCase()
-      );
-      if (requestedPlant) {
-        setPlant(requestedPlant);
-      } else {
-        findSimilarNames();
-      }
+      fetch(`https://plant-watering.herokuapp.com/plants/?name=${plantName}`, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          if (
+            responseJson.result.length &&
+            responseJson.result[0].name.toLowerCase() ===
+              plantName.toLowerCase()
+          ) {
+            setPlant(responseJson.result[0]);
+          } else {
+            setSimilarPlants(responseJson.result.slice(0, 3));
+          }
+          setTimeout(() => setLoading(false), 3000);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     [plantName]
   );
-  function findSimilarNames() {
-    let similarNames = AllPlants.filter(
-      (plant) =>
-        plant.name
-          .toLowerCase()
-          .startsWith(plantName.toLowerCase().slice(0, plantName.length - 2)) ||
-        plant.name.toLowerCase().endsWith(plantName.toLowerCase().slice(2))
-    );
-    console.log(similarNames);
-    setSimilarPlants(similarNames.slice(0, 3));
-  }
+
   const goToPlant = (plantName) => {
     Actions.plant({ plantName });
   };
 
   return (
     <View style={styles.container}>
-      {plant ? (
+      {loading ? (
+        <View style={styles.loading}>
+          <BouncingPreloader
+            icons={[require("../img/watering-can.svg")]}
+            speed={2000}
+          />
+        </View>
+      ) : plant ? (
         <View style={styles.plantCard}>
           <View>
-            <Text style={styles.header}>{plantName}</Text>
+            <Text style={styles.header}>{plant.name}</Text>
           </View>
           <View>
-            <PlantImage img={plant.image} />
+            <PlantImage img={plant.image[0]} />
             <Button
-              onPress={() => Alert.alert("Simple Button pressed")}
+              onPress={() => Alert.alert(plant.interestingFact)}
               title="Learn More"
               color="#3BBF8F"
               accessibilityLabel="Learn more about this plant"
             />
           </View>
           <View>
-            <Text style={styles.text}>
-              Your {plantName} should be watered {plant.watering}
-            </Text>
+            <WateringTime style={styles.text} plant={plant} />
           </View>
         </View>
       ) : (
@@ -70,18 +79,24 @@ const Plant = ({ plantName }) => {
           <Text style={styles.header}>
             Plant not found. We dont have {plantName} yet in our base
           </Text>
-          <Text style={styles.text}>Maybe you were looking for</Text>
-          <View style={styles.otherPlants}>
-            {similarPlants.map((plant, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.submitButton}
-                onPress={() => goToPlant(plant.name)}
-              >
-                <Text style={styles.submitButtonText}>{plant.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+          {similarPlants.length && (
+            <>
+              <Text style={styles.text}>Maybe you were looking for</Text>
+              <View style={styles.otherPlants}>
+                {similarPlants.map((plantMatch, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.submitButton}
+                    onPress={() => goToPlant(plantMatch.name)}
+                  >
+                    <Text style={styles.submitButtonText}>
+                      {plantMatch.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          )}
         </View>
       )}
     </View>
@@ -93,6 +108,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     margin: 15,
+  },
+  loading: {
+    marginTop: 300,
   },
   plantCard: {
     flexDirection: "column",

@@ -56,6 +56,7 @@ const About = () => {
         Few watering tips
       </Text>
       <List listItems={listItems} />
+      <Text>Icons made by Freepik from www.flaticon.com</Text>
     </View>
     //  </TouchableOpacity>
   );

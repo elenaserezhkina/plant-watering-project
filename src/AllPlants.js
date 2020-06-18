@@ -25,10 +25,6 @@ const AllPlants = [
     watering: "once every 10 days to two weeks with much water",
     additionalInfo: "",
   },
-  // { name: "", image: "", watering: "", additionalInfo: "" },
-  //{ name: "", image: "", watering: "", additionalInfo: "" },
-  //{ name: "", image: "", watering: "", additionalInfo: "" },
-  //{ name: "", image: "", watering: "", additionalInfo: "" },
 ];
 
 export default AllPlants;
