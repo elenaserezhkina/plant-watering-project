@@ -3,20 +3,21 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Button,
-  Alert,
   StyleSheet,
+  Button,
+  Image,
 } from "react-native";
 import { Actions, POP_AND_PUSH } from "react-native-router-flux";
 import BouncingPreloader from "react-native-bouncing-preloader";
+import Modal from "react-native-modal";
 import PlantImage from "../components/PlantImage";
 import WateringTime from "../components/WateringTime";
-// import AllPlants from "../AllPlants";
 
 const Plant = ({ plantName }) => {
   const [similarPlants, setSimilarPlants] = useState([]);
   const [plant, setPlant] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(
     function findPlant() {
@@ -46,13 +47,19 @@ const Plant = ({ plantName }) => {
   const goToPlant = (plantName) => {
     Actions.plant({ plantName });
   };
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   return (
     <View style={styles.container}>
       {loading ? (
         <View style={styles.loading}>
           <BouncingPreloader
-            icons={[require("../img/watering-can.svg")]}
+            icons={[
+              require("../img/watering-can.png"),
+              require("../img/cactus.png"),
+            ]}
             speed={2000}
           />
         </View>
@@ -63,12 +70,33 @@ const Plant = ({ plantName }) => {
           </View>
           <View>
             <PlantImage img={plant.image[0]} />
-            <Button
-              onPress={() => Alert.alert(plant.interestingFact)}
-              title="Learn More"
-              color="#3BBF8F"
-              accessibilityLabel="Learn more about this plant"
-            />
+
+            <View>
+              <Button
+                onPress={toggleModal}
+                title="Interesting fact"
+                color="#82D9B9"
+              />
+              <Modal
+                style={styles.modal}
+                isVisible={isModalVisible}
+                onBackdropPress={() => setIsModalVisible(false)}
+                onSwipeComplete={() => setIsModalVisible(false)}
+                swipeDirection="left"
+              >
+                <View style={styles.modalView}>
+                  <Image
+                    source={require("../img/planet-earth.png")}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      alignSelf: "center",
+                    }}
+                  />
+                  <Text style={styles.text}>{plant.interestingFact}</Text>
+                </View>
+              </Modal>
+            </View>
           </View>
           <View>
             <WateringTime style={styles.text} plant={plant} />
@@ -144,6 +172,12 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     fontSize: 18,
+  },
+  modal: {
+    backgroundColor: "#82D9B9",
+  },
+  modalView: {
+    backgroundColor: "white",
   },
 });
 export default Plant;
