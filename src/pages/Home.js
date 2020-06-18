@@ -6,6 +6,7 @@ import {
   Button,
   Alert,
   StyleSheet,
+  Image,
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import Input from "../components/Input";
@@ -25,6 +26,14 @@ const Home = () => {
       <View>
         <Input onPress={goToPlant} />
       </View>
+      <Image
+        source={require("../img/heart.png")}
+        style={{
+          width: 100,
+          height: 100,
+          alignSelf: "center",
+        }}
+      />
       <View
         style={{
           padding: 20,

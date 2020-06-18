@@ -26,16 +26,17 @@ const Plant = ({ plantName }) => {
       })
         .then((response) => response.json())
         .then((responseJson) => {
-          if (
-            responseJson.result.length &&
-            responseJson.result[0].name.toLowerCase() ===
+          if (responseJson.result.length) {
+            if (
+              responseJson.result[0].name.toLowerCase() ===
               plantName.toLowerCase()
-          ) {
-            setPlant(responseJson.result[0]);
-          } else {
-            setSimilarPlants(responseJson.result.slice(0, 3));
+            ) {
+              setPlant(responseJson.result[0]);
+            } else {
+              setSimilarPlants(responseJson.result.slice(0, 3));
+            }
           }
-          setTimeout(() => setLoading(false), 3000);
+          setTimeout(() => setLoading(false), 2000);
         })
         .catch((error) => {
           console.error(error);
@@ -107,7 +108,7 @@ const Plant = ({ plantName }) => {
           <Text style={styles.header}>
             Plant not found. We dont have {plantName} yet in our base
           </Text>
-          {similarPlants.length && (
+          {similarPlants.length ? (
             <>
               <Text style={styles.text}>Maybe you were looking for</Text>
               <View style={styles.otherPlants}>
@@ -124,6 +125,8 @@ const Plant = ({ plantName }) => {
                 ))}
               </View>
             </>
+          ) : (
+            []
           )}
         </View>
       )}
