@@ -85,17 +85,19 @@ const Plant = ({ plantName }) => {
                 onSwipeComplete={() => setIsModalVisible(false)}
                 swipeDirection="left"
               >
-                <View style={styles.modalView}>
-                  <Image
-                    source={require("../img/planet-earth.png")}
-                    style={{
-                      width: 200,
-                      height: 200,
-                      alignSelf: "center",
-                    }}
-                  />
-                  <Text style={styles.text}>{plant.interestingFact}</Text>
-                </View>
+                <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                  <View style={styles.modalView}>
+                    <Image
+                      source={require("../img/planet-earth.png")}
+                      style={{
+                        width: 200,
+                        height: 200,
+                        alignSelf: "center",
+                      }}
+                    />
+                    <Text style={styles.text}>{plant.interestingFact}</Text>
+                  </View>
+                </TouchableOpacity>
               </Modal>
             </View>
           </View>

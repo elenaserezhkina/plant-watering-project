@@ -24,10 +24,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     marginTop: 3,
-    backgroundColor: "#d9f9b1",
+    backgroundColor: "#82D9B9",
   },
   text: {
-    color: "#4f603c",
+    color: "white",
   },
 });
 export default List;

@@ -32,7 +32,6 @@ const About = () => {
   //  Actions.home();
   //};
   return (
-    // <TouchableOpacity style={{ margin: 128 }} onPress={goToHome}>
     <View
       style={{
         flexDirection: "column",
@@ -50,7 +49,7 @@ const About = () => {
       <Text
         style={{
           textAlign: "center",
-          color: "darkgreen",
+          color: "#3BBF8F",
         }}
       >
         Few watering tips

@@ -65,8 +65,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 15,
   },
-  text: {
-    color: "#4f603c",
-  },
 });
 export default Home;
