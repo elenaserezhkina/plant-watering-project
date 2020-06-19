@@ -108,7 +108,7 @@ const Plant = ({ plantName }) => {
       ) : (
         <View style={styles.notFound}>
           <Text style={styles.header}>
-            Plant not found. We dont have {plantName} yet in our base
+            Plant not found. We don't have {plantName} yet in our base
           </Text>
           {similarPlants.length ? (
             <>
