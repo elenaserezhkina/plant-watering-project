@@ -1,12 +1,8 @@
 {
   "expo": {
-    "name": "PlantProject",
-    "slug": "PlantProject",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "name": "Plants Watering App",
+    "slug": "plants-watering-app",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,11 +14,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "In this app, you can find a plant by name and check how often you should water it. Also, there is an interesting fact about each plant. ",
+    "githubUrl": "https://github.com/elenaserezhkina/plant-watering-project"
   }
 }
